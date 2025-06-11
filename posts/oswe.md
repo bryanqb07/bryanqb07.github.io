@@ -7,7 +7,7 @@ title: "My OSWE Exam Experience"
 #### 5 a.m. 
 
 Wake up due to sleep anxiety.  It always happens to me the night before a big exam.  I couldn’t stop thinking about the Extra Mile exercise for the Pug Prototype Pollution.  While looking through the source code I thought I discovered an XSS vulnerability that hasn’t been uncovered yet.  After looking into it for about an hour or so I decide to give it a break; I’ll need my brain for the exam later today.
-
+<br><br>
 
 #### 10 a.m.
 
@@ -19,6 +19,7 @@ The apps are actually smaller than I imagined.  Coming from a SWE background I�
 
 I get started on app #1.
 
+<br><br>
 
 #### 1 p.m.
 

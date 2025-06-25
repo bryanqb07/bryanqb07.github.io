@@ -3,9 +3,12 @@ layout: post
 title: "Kanboard CVE-2025-52560"
 ---
 
-## Identifying the Vulnerability
+## Password Reset Poisoning via Host Header Injection
 
-So on a whim, this past week I decided to check out Kanboard, an open source Kanban-like sprint task management software. It's a medium-sized project, with over 13k Github stars and several published security audits, so I thought it would be a decent challenge for me.
+### Identifying the Vulnerability
+
+So on a whim, this past week I decided to check out [Kanboard](https://github.com/kanboard/kanboard/)
+ , an open source Kanban-like sprint task management software. It's a medium-sized project, with over 13k Github stars and several published security audits, so I thought it would be a decent challenge for me.
 
 I spent the first few days getting comfortable with the app and looking through the routes.  After going down some major rabbitholes chasing the usual suspects (SQLi, XSS), I decided to take a step back and take a more holistic view of the app itself.
 
@@ -50,7 +53,7 @@ From here, the attack chain is clear.
 6. The user will receive a malicious link. Once he clicks, attacker can use credentials to reset the password and takeover the account. 
 
 
-## Exploiting
+### Exploiting
 
 I have Kanboard running in Docker in its default configuration. Rather than setting up email support, I'll just be lazy and add debug logging to `/var/www/app/app/Core/Mail/Client.php` so that we can log the body of the mail being sent.
 
@@ -84,10 +87,8 @@ Once this is complete, I'll go to the login page, click the `Forgot Password` li
 </figure>
 
 In BurpSuite I'll now go ahead and edit the `Host` header to `myevilsite.com`, then pass the request back through to the backend.
-![tampered_host](/assets/img/kanboard/proxy.png)
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
-  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+  <img src="/assets/img/kanboard/proxy.png" alt="Proxy" style="max-width: 90%; border-radius: 8px;">
 </figure>
 
 If we look through the debug logs of the app for the email sent, we should now see the following:
@@ -103,20 +104,15 @@ kanboard  | <hr>
 
 As can be seen the email's reset link is to a site that we as attackers control (myevilsite.com) rather than Kanboard. We can now setup a listener on our evil site to listen for the user's request.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
-  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+  <img src="/assets/img/kanboard/listener.png" alt="Listener" style="max-width: 90%; border-radius: 8px;">
 </figure>
-![password_logged](/assets/img/kanboard/listener.png)
 
 Once we have the reset password token, we can then go to `http://<kanboard_url>/change/<token>` and use the token to change the user's password and subsequently login to the account.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
-  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+  <img src="/assets/img/kanboard/reset_success.png" alt="Success" style="max-width: 90%; border-radius: 8px;">
 </figure>
 
-![password_reset_success](/assets/img/kanboard/reset_success.png)
-
-## Final Thoughts
+### Final Thoughts
 
 If you're going to roll out your own HTTP library, better be careful about which headers you trust. Overall, it was a fun discovery that many others missed during their security audits of the app.  Just goes to show that the more "boring" aspects of development (HTTP header parsing) should not be overlooked.
 

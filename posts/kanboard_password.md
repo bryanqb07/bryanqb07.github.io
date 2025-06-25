@@ -79,10 +79,10 @@ I have Kanboard running in Docker in its default configuration. Rather than sett
 ```
 
 Once this is complete, I'll go to the login page, click the `Forgot Password` link, then enter in a username and click submit, making sure to proxy the request through Burp Suite so that I can edit the headers.
-![password_reset](https://github.com/user-attachments/assets/1c8f16ce-7e1f-4ce3-894b-7bbb1f209201)
+![password_reset](/assets/img/kanboard/reset_password.png)
 
 In BurpSuite I'll now go ahead and edit the `Host` header to `myevilsite.com`, then pass the request back through to the backend.
-![tampered_host](https://github.com/user-attachments/assets/12e6312f-2e73-4374-b909-647975b0f777)
+![tampered_host](/assets/img/kanboard/proxy.png)
 
 If we look through the debug logs of the app for the email sent, we should now see the following:
 ```
@@ -96,10 +96,10 @@ kanboard  | <hr>
 ```
 
 As can be seen the email's reset link is to a site that we as attackers control (myevilsite.com) rather than Kanboard. We can now setup a listener on our evil site to listen for the user's request.
-![password_logged](https://github.com/user-attachments/assets/a107c67b-c5f7-4fd6-9af9-5aab5c77c14a)
+![password_logged](/assets/img/kanboard/listener.png)
 
 Once we have the reset password token, we can then go to `http://<kanboard_url>/change/<token>` and use the token to change the user's password and subsequently login to the account.
-![password_reset_success](https://github.com/user-attachments/assets/eb995fdb-ab26-4d53-9438-f76ba9bf78e1)
+![password_reset_success](/assets/img/kanboard/reset_success.png)
 
 ## Final Thoughts
 

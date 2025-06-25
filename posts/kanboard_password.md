@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kanboard Password Reset Poisoning via Host Header Injection (CVE-2025-52560)"
+title: "Kanboard CVE-2025-52560"
 ---
 
 ## Identifying the Vulnerability
@@ -79,10 +79,16 @@ I have Kanboard running in Docker in its default configuration. Rather than sett
 ```
 
 Once this is complete, I'll go to the login page, click the `Forgot Password` link, then enter in a username and click submit, making sure to proxy the request through Burp Suite so that I can edit the headers.
-![password_reset](/assets/img/kanboard/reset_password.png)
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/kanboard/reset_password.png" alt="Password Reset" style="max-width: 90%; border-radius: 8px;">
+</figure>
 
 In BurpSuite I'll now go ahead and edit the `Host` header to `myevilsite.com`, then pass the request back through to the backend.
 ![tampered_host](/assets/img/kanboard/proxy.png)
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
+  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+</figure>
 
 If we look through the debug logs of the app for the email sent, we should now see the following:
 ```
@@ -96,9 +102,18 @@ kanboard  | <hr>
 ```
 
 As can be seen the email's reset link is to a site that we as attackers control (myevilsite.com) rather than Kanboard. We can now setup a listener on our evil site to listen for the user's request.
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
+  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+</figure>
 ![password_logged](/assets/img/kanboard/listener.png)
 
 Once we have the reset password token, we can then go to `http://<kanboard_url>/change/<token>` and use the token to change the user's password and subsequently login to the account.
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/reset-poisoning.png" alt="Reset bug" style="max-width: 90%; border-radius: 8px;">
+  <figcaption style="font-size: 0.9em; color: #666;">Figure: Exploit flow of the reset bug</figcaption>
+</figure>
+
 ![password_reset_success](/assets/img/kanboard/reset_success.png)
 
 ## Final Thoughts

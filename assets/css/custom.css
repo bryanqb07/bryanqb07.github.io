@@ -1,0 +1,15 @@
+/* Increase spacing around fenced code blocks */
+pre {
+  margin-top: 4em;
+  margin-bottom: 4em;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+/* Optional: Improve code font readability */
+pre code {
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+

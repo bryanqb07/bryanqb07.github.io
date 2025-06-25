@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>My OSWE Exam Experience | Bryan’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="My OSWE Exam Experience" />
+<meta name="author" content="Bryan Lynch" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/oswe.html" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/oswe.html" />
+<meta property="og:site_name" content="Bryan’s Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="My OSWE Exam Experience" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Bryan Lynch"},"headline":"My OSWE Exam Experience","url":"http://0.0.0.0:4000/posts/oswe.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="Bryan&apos;s Blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Bryan&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/posts/about.html">About Me</a><a class="page-link" href="/">Home</a><a class="page-link" href="/posts/kanboard_password.html">Kanboard CVE-2025-52560</a><a class="page-link" href="/posts/oswe.html">My OSWE Exam Experience</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">My OSWE Exam Experience</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="" itemprop="datePublished">
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <style>
+  .essay-spacing p {
+    margin-bottom: 2em;
+  }
+</style>
+
+<h2 id="day-1">Day 1</h2>
+
+<h4 id="5-am">5 a.m.</h4>
+
+<p>Wake up due to sleep anxiety.  It always happens to me the night before a big exam.  I couldn’t stop thinking about the Extra Mile exercise for the Pug Prototype Pollution.  While looking through the source code I thought I discovered an XSS vulnerability that hasn’t been uncovered yet.  After looking into it for about an hour or so I decide to give it a break; I’ll need my brain for the exam later today.</p>
+
+<h4 id="10-am">10 a.m.</h4>
+
+<p>Started the exam 10 minutes late.  I foolishly was waiting for the email to the proctoring link, but didn’t realize it had been sent the night before.  Luckily I was able to connect without any issue.</p>
+
+<p>The problems don’t stop here.  For the first app I couldn’t quite figure out how to connect to the debugger.  It takes me an hour or so before I can get it working.  Even afterwards, I could only pause at breakpoints but couldn’t execute code in the debug console.  While this didn’t end up making a difference it was an added obstacle.</p>
+
+<p>The apps are actually smaller than I imagined.  Coming from a SWE background I’m used to codebases 10x this size.  Given that I solved all the challenge labs fairly smoothly I’m pretty confident about passing the exam.</p>
+
+<p>I get started on app #1.</p>
+
+<h4 id="1-pm">1 p.m.</h4>
+
+<p>Eat a small lunch.</p>
+
+<h4 id="2-pm">2 p.m.</h4>
+
+<p>Brain is feeling a bit groggy due to lack of sleep.  Been going through the source code for about 4 hours, yet still haven’t found anything promising.  I’ve found a couple small vulnerabilities but none are able to lead to bypass.</p>
+
+<p>Given how small the apps are, I’ve decided to go through every route one by one and every function to manually review them.  Hopefully I will come across something.</p>
+
+<h4 id="5-pm">5 p.m.</h4>
+
+<p>Went down a few rabbit holes but nothing promising.  Deciding to switch to the other app to see if I have any better luck.  Luckily the debug setup for this one is much easier.</p>
+
+<h4 id="9-pm">9 p.m.</h4>
+
+<p>Brain is really tired at this point.  Haven’t had any better luck in this app either.  Just like the first app, there are some small vulnerabilities but I can’t exploit them in any meaningful way.  I was hoping to get RCE on at least one box the first day to make the next day easier for me.</p>
+
+<h4 id="1030-pm">10:30 p.m.</h4>
+
+<p>Finally decide it’s time to take a break and eat dinner. My wife comes into the kitchen around this point.  I tell her that there’s a high probability of me failing the exam.  I can’t really believe this after I did so well in the challenge labs.</p>
+
+<h4 id="11-pm">11 p.m.</h4>
+
+<p>Decide to switch back to the first app.  I have a much better feel for that one.  I see a path to RCE that I can likely get post-admin bypass, but I’ve had no luck trying to get admin creds.  I decide to narrow in on the endpoint that I feel is most likely to give me access, but it has multiple filters so strict that I just can’t get through.</p>
+
+<h2 id="day-2">Day 2</h2>
+
+<h4 id="1-am">1 a.m.</h4>
+
+<p>Decide to call it a night and get some rest.  It’s hard to do because my adrenaline is running so high.  It’s a great feeling for me, even if I’m not doing so well at the moment.</p>
+
+<p>As I lie in bed, I think about how the endpoint I’ve been trying to exploit reminds me of a PortSwigger lab that I did once, except that lab was much easier.  Suddenly, an idea pops into my head for a solution, at least to get past the first filter.  I jump out of bed and reconnect to the proctoring session.</p>
+
+<p>I send my payload to the endpoint, expecting it to pass the first filter but not the next.  To my surprise it goes through both and I get admin credentials!  After re-reading the code, it turns out that I had overlooked a small detail that would allow my exploit to go through.  Guess it never hurts to try things, even when in doubt!</p>
+
+<p>From here, I have a decent idea of how to get code execution, it’s all just a matter of scripting it all out.</p>
+
+<h4 id="4-am">4 a.m.</h4>
+
+<p>Got RCE on the first box.  Did most of this via code so my PoC script is about 70% done.  I feel both exhilarating and exhausted.  Time to get a little sleep.</p>
+
+<h4 id="7-am">7 a.m.</h4>
+
+<p>Wake up from my sleep.  Not sure if it’s the anxiety or my kids that woke me up.  Either way, I feel decently refreshed and optimistic about today.  All I need is to find the auth bypass on app #2 and I’ve passed the exam. Given that I still have over a day remaining I feel confident about this.</p>
+
+<h4 id="9-am">9 a.m.</h4>
+
+<p>Still no luck.  That said, when I first started this box I ruled out the possibility of a certain type of exploit.  I’m going to revisit that assumption, even though it seems unlikely.</p>
+
+<h4 id="10-am-1">10 a.m.</h4>
+
+<p>Turns out the exploit I ruled out was exactly what was required to get auth bypass!  I’ve now accessed the admin panel on the second app, which means the exam is passed. I go eat breakfast to celebrate.</p>
+
+<h4 id="11-am---9-pm">11 a.m. - 9 p.m.</h4>
+
+<p>From here, I decide to go the conservative route and spend the rest of the day writing the PoC code as well as the exam report.  If there’s time left over I’ll attempt to get RCE on the second app.</p>
+
+<h4 id="9-pm-1">9 p.m.</h4>
+
+<p>Done with the report.  Tested the PoCs multiple times.  Both work fine.  A bit worried about how the PDF document is going to affect the formatting of my PYTHON script, but other than that I think it’s good to go.</p>
+
+<p>I decide to attempt to find RCE on the second app.  The possible exploit vectors for this are much smaller so I don’t think it should be too difficult.</p>
+
+<h4 id="11-pm-1">11 p.m.</h4>
+
+<p>RCE proving to be more difficult than I thought.</p>
+
+<h2 id="day-3">Day 3</h2>
+
+<h4 id="1-am-1">1 a.m.</h4>
+
+<p>Found a way to get interaction from the server to my Kali machine! RCE seems to be in sight, just need to figure out the proper payload.</p>
+
+<h4 id="4-am-1">4 a.m.</h4>
+
+<p>After trying different combinations of payloads there’s still no luck.  Brain is completely exhausted.  Going to lie down.</p>
+
+<h4 id="9-am-1">9 a.m.</h4>
+
+<p>Woke up a lot later than I wanted to.  Don’t have much time left.</p>
+
+<p>Make a few more attempts at getting RCE.  Found a different payload route that seems promising.</p>
+
+<h4 id="945-am">9:45 am</h4>
+
+<p>Unfortunately time runs out before I can arrive at RCE.  That’s okay though; I still have enough points to pass.</p>
+
+<h4 id="10-am-2">10 a.m.</h4>
+
+<p>Submit the exam report.  Still a little nervous about the formatting of my code but I guess we’ll just have to wait and see.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>Overall I felt like it was an extremely fun exam, although it was much more difficult than I anticipated.  I feel that I learned a lot during the course of the exam and honestly wish that I could take this multiple times to improve my skills.  Also, there’s nothing more fulfilling than that moment when all the dots connect.</p>
+
+<h2 id="update">Update</h2>
+
+<p>Got an email from OffSec the day after I submitted by exam report informing me that I have passed!</p>
+
+
+  </div><a class="u-url" href="/posts/oswe.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Bryan&#39;s Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Bryan Lynch</li><li><a class="u-email" href="mailto:bml312@nyu.edu">bml312@nyu.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -3,6 +3,16 @@ layout: post
 title: "Kanboard CVE-2025-52560"
 ---
 
+<style>
+/* Only affects this post */
+pre {
+  margin-top: 2em;
+  margin-bottom: 2em !important;
+  padding: 1em;
+  border-radius: 6px;
+}
+</style>
+
 ## Password Reset Poisoning via Host Header Injection
 
 ### Identifying the Vulnerability
@@ -83,12 +93,12 @@ I have Kanboard running in Docker in its default configuration. Rather than sett
 
 Once this is complete, I'll go to the login page, click the `Forgot Password` link, then enter in a username and click submit, making sure to proxy the request through Burp Suite so that I can edit the headers.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/kanboard/reset_password.png" alt="Password Reset" style="max-width: 90%; border-radius: 8px;">
+  <img src="/assets/img/kanboard/reset_password.png" alt="Password Reset" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;">
 </figure>
 
 In BurpSuite I'll now go ahead and edit the `Host` header to `myevilsite.com`, then pass the request back through to the backend.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/kanboard/proxy.png" alt="Proxy" style="max-width: 90%; border-radius: 8px;">
+  <img src="/assets/img/kanboard/proxy.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;">
 </figure>
 
 If we look through the debug logs of the app for the email sent, we should now see the following:
@@ -104,12 +114,12 @@ kanboard  | <hr>
 
 As can be seen the email's reset link is to a site that we as attackers control (myevilsite.com) rather than Kanboard. We can now setup a listener on our evil site to listen for the user's request.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/kanboard/listener.png" alt="Listener" style="max-width: 90%; border-radius: 8px;">
+  <img src="/assets/img/kanboard/listener.png" alt="Listener" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;">
 </figure>
 
 Once we have the reset password token, we can then go to `http://<kanboard_url>/change/<token>` and use the token to change the user's password and subsequently login to the account.
 <figure style="text-align: center; margin: 2em 0;">
-  <img src="/assets/img/kanboard/reset_success.png" alt="Success" style="max-width: 90%; border-radius: 8px;">
+  <img src="/assets/img/kanboard/reset_success.png" alt="Success" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;">
 </figure>
 
 ### Final Thoughts

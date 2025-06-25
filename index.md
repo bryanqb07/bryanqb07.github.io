@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Welcome
+title: Home
 ---
 
 Welcome to my blog. Below are my essays:

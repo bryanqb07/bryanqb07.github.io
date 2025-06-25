@@ -65,7 +65,7 @@ Finally decide it’s time to take a break and eat dinner. My wife comes into th
 
 Decide to switch back to the first app. I have a much better feel for that one. I see a path to RCE that I can likely get post-admin bypass, but I’ve had no luck trying to get admin creds. I decide to narrow in on the endpoint that I feel is most likely to give me access, but it has multiple filters so strict that I just can’t get through.
 
----
+<br>
 
 ## Day 2
 
@@ -109,7 +109,7 @@ I decide to attempt to find RCE on the second app. The possible exploit vectors 
 
 RCE proving to be more difficult than I thought.
 
----
+<br>
 
 ## Day 3
 
@@ -135,15 +135,15 @@ Unfortunately time runs out before I can arrive at RCE. That’s okay though; I 
 
 Submit the exam report. Still a little nervous about the formatting of my code but I guess we’ll just have to wait and see.
 
----
-
+<br>
 ## Final Thoughts
 
 Overall I felt like it was an extremely fun exam, although it was much more difficult than I anticipated. I feel that I learned a lot during the course of the exam and honestly wish that I could take this multiple times to improve my skills. Also, there’s nothing more fulfilling than that moment when all the dots connect.
 
----
 
 ## Update
 
 Got an email from OffSec the day after I submitted my exam report informing me that I have **passed**!
-
+<br>
+<br>
+![OSWE](/assets/img/oswe/oswe.png)

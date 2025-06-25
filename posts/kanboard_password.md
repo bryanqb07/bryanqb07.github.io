@@ -26,7 +26,7 @@ ol > li {
 ### Identifying the Vulnerability
 
 So on a whim, this past week I decided to check out [Kanboard](https://github.com/kanboard/kanboard/)
- , an open source Kanban-like sprint task management software. It's a medium-sized project, with over 13k Github stars and several published security audits, so I thought it would be a decent challenge for me.
+ , an open source Kanban-like sprint task management software. It's a medium-sized project, with over 9k Github stars and several published security audits, so I thought it would be a decent challenge for me.
 
 I spent the first few days getting comfortable with the app and looking through the routes.  After going down some major rabbitholes chasing the usual suspects (SQLi, XSS), I decided to take a step back and take a more holistic view of the app itself.
 

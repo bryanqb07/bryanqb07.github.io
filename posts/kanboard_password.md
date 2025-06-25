@@ -11,6 +11,14 @@ pre {
   padding: 1em;
   border-radius: 6px;
 }
+ol {
+  margin-bottom: 2em;
+}
+
+ol > li {
+  margin-bottom: 1em;  /* space between list items */
+  line-height: 1;
+}
 </style>
 
 ## Password Reset Poisoning via Host Header Injection

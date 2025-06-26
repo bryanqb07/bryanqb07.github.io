@@ -30,17 +30,68 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/posts/about.html">About Me</a><a class="page-link" href="/">Home</a><a class="page-link" href="/posts/kanboard_password.html">Kanboard CVE-2025-52560</a><a class="page-link" href="/posts/oswe.html">OSWE</a></div>
+        <div class="trigger">
+            <a class="page-link" href="/">Home</a>
+						<div class="dropdown" style="display: inline-block; position: relative;">
+
+	<div class="dropdown" style="position: relative; display: inline-block;">
+  <span style="cursor: pointer; padding: 0.5em;" class="dropdown-label">
+    CVE Reports ▾
+  </span>
+  <div class="dropdown-content" style="
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 999;
+    min-width: 200px;
+    text-align: left;
+  ">
+    
+    <a href="/posts/kanboard_password.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52560</a>
+      
+    <a href="/posts/kanboard_users.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52575</a>
+      
+    
+    
+    
+    
+    
+  </div>
+</div>
+
+<style>
+  .dropdown:hover .dropdown-content {
+    display: block !important;
+  }
+</style>
+
+            <a class="page-link" href="/posts/oswe.html">OSWE</a>
+           <a class="page-link" href="/posts/about.html">About Me</a>
+        </div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home"><h1 class="page-heading">Home</h1><p>Welcome to my blog. Below are my essays:</p>
+        <div class="home"><h1 class="page-heading">Home</h1><p>Welcome to my security research blog. Below are my writeups:</p>
 
 <ul>
   <li><a href="posts/about.html">About Me</a></li>
   <li><a href="posts/oswe.html">OSWE Exam Experience</a></li>
   <li><a href="posts/kanboard_password.html">Kanboard Password Reset Poisoning via Host Header Injection (CVE-2025-52560)</a></li>
+  <li><a href="posts/kanboard_users.html">Kanboard Username Enumeration and Bruteforce Bypass (CVE-2025-52576)</a></li>
 </ul>
 </div>
 

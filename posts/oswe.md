@@ -1,6 +1,8 @@
 ---
 layout: post
 title: "OSWE"
+category: exam
+tags: [oswe, oscp, exam]
 ---
 
 <style>

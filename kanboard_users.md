@@ -1,8 +1,6 @@
 ---
 layout: post
 title: "Kanboard CVE-2025-52560"
-category: cve
-tags: [kanboard, cve-2025-52560, security]
 ---
 
 <style>

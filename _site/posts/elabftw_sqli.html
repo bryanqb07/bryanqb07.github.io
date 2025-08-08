@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Elabftw CVE-2025-25206 | Bryan’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Elabftw CVE-2025-25206" />
+<meta name="author" content="Bryan Lynch" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/posts/elabftw_sqli.html" />
+<meta property="og:url" content="http://localhost:4000/posts/elabftw_sqli.html" />
+<meta property="og:site_name" content="Bryan’s Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Elabftw CVE-2025-25206" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Bryan Lynch"},"headline":"Elabftw CVE-2025-25206","url":"http://localhost:4000/posts/elabftw_sqli.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Bryan&apos;s Blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Bryan&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/">Home</a>
+						<div class="dropdown" style="display: inline-block; position: relative;">
+
+	<div class="dropdown" style="position: relative; display: inline-block;">
+  <span style="cursor: pointer; padding: 0.5em;" class="dropdown-label">
+    CVE Reports ▾
+  </span>
+  <div class="dropdown-content" style="
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 999;
+    min-width: 200px;
+    text-align: left;
+  ">
+    <a href="/posts/elabftw_sqli.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Elabftw CVE-2025-25206</a>
+      
+    
+    <a href="/posts/kanboard_password.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52560</a>
+      
+    <a href="/posts/kanboard_users.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52575</a>
+      
+    
+    
+    
+    
+  </div>
+</div>
+
+<style>
+  .dropdown:hover .dropdown-content {
+    display: block !important;
+  }
+</style>
+
+            <a class="page-link" href="/posts/oswe.html">OSWE</a>
+           <a class="page-link" href="/posts/about.html">About Me</a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Elabftw CVE-2025-25206</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="" itemprop="datePublished">
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="authenticated-sql-injection-via-metadata-update">Authenticated SQL Injection via Metadata Update</h2>
+
+<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
+
+<p><a href="https://github.com/elabftw/elabftw">Elabftw</a> is an experiment tracking software used by many universities, particularly in Europe it seems. I came across it during a CTF and thought it looked interesting, so I cloned the Github repo and started to dig in.</p>
+
+<p>Prior to going deep into any web assessment, I like to manually look at every query string in an app to ensure that there aren’t any irregularities.  Sure this takes time, but often I find that I can catch things that automated scanners miss.</p>
+
+<p>Often times string concatenation is a major culprit for SQL injection, and since this app is written in PHP that syntax would look something like <code class="language-plaintext highlighter-rouge">$sql = "SELECT something from table WHERE id = " . $id</code>. Knowing this, I did a full regex search through the codebase along the lines of <code class="language-plaintext highlighter-rouge">/SELECT.*\..*/</code>, basically just looking for string concatenation.</p>
+
+<p>After going through the results, one function in the <code class="language-plaintext highlighter-rouge">Users</code> model caught my eye</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">public</span> <span class="k">function</span> <span class="n">readNamesFromIds</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$idArr</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$idArr</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">array</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT CONCAT(users.firstname, ' ', users.lastname) AS fullname, userid, email FROM users WHERE userid IN ("</span> <span class="mf">.</span> <span class="nb">implode</span><span class="p">(</span><span class="s1">','</span><span class="p">,</span> <span class="nv">$idArr</span><span class="p">)</span> <span class="mf">.</span> <span class="s1">') ORDER BY fullname ASC'</span><span class="p">;</span>
+        <span class="nv">$req</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nc">Db</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nc">Db</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">(</span><span class="nv">$req</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="nf">fetchAll</span><span class="p">();</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>As can be seen, this <code class="language-plaintext highlighter-rouge">idArr</code> field is being concatenated onto the sql string.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT CONCAT(users.firstname, ' ', users.lastname) AS fullname, userid, email 
+FROM users WHERE userid IN ("</span> <span class="mf">.</span> <span class="nb">implode</span><span class="p">(</span><span class="s1">','</span><span class="p">,</span> <span class="nv">$idArr</span><span class="p">)</span> <span class="mf">.</span> <span class="s1">') ORDER BY fullname ASC'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>If somehow it weren’t sanitized we as an attacker could inject arbitrary SQL and potentially read sensitive data.</p>
+
+<p>Tracing the call stack, I found that <code class="language-plaintext highlighter-rouge">idArr</code> is passed in by <code class="language-plaintext highlighter-rouge">PermissionsHelper</code> to see which users have permissions to view an experiment.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="cd">/**
+     * Make the permissions json string an array with human readable content, translate the ids
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">translate</span><span class="p">(</span><span class="kt">Teams</span> <span class="nv">$Teams</span><span class="p">,</span> <span class="kt">TeamGroups</span> <span class="nv">$TeamGroups</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$json</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="nv">$permArr</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="no">JSON_THROW_ON_ERROR</span><span class="p">);</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+
+        <span class="nv">$base</span> <span class="o">=</span> <span class="nc">BasePermissions</span><span class="o">::</span><span class="nf">tryFrom</span><span class="p">(</span><span class="nv">$permArr</span><span class="p">[</span><span class="s1">'base'</span><span class="p">])</span> <span class="o">??</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">ImproperActionException</span><span class="p">(</span><span class="s1">'Invalid base parameter for permissions'</span><span class="p">);</span>
+        <span class="nv">$result</span><span class="p">[</span><span class="s1">'base'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$base</span><span class="o">-&gt;</span><span class="nf">toHuman</span><span class="p">();</span>
+        <span class="nv">$result</span><span class="p">[</span><span class="s1">'teams'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$Teams</span><span class="o">-&gt;</span><span class="nf">readNamesFromIds</span><span class="p">(</span><span class="nv">$permArr</span><span class="p">[</span><span class="s1">'teams'</span><span class="p">]);</span>
+        <span class="nv">$result</span><span class="p">[</span><span class="s1">'teamgroups'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$TeamGroups</span><span class="o">-&gt;</span><span class="nf">readNamesFromIds</span><span class="p">(</span><span class="nv">$permArr</span><span class="p">[</span><span class="s1">'teamgroups'</span><span class="p">]);</span>
+        <span class="nv">$result</span><span class="p">[</span><span class="s1">'users'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$Teams</span><span class="o">-&gt;</span><span class="nc">Users</span><span class="o">-&gt;</span><span class="nf">readNamesFromIds</span><span class="p">(</span><span class="nv">$permArr</span><span class="p">[</span><span class="s1">'users'</span><span class="p">]);</span>
+
+        <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>As can be seen, the <code class="language-plaintext highlighter-rouge">permArr</code> variable is just decoded JSON, and the <code class="language-plaintext highlighter-rouge">translate</code> function is just passing in the JSON from the key <code class="language-plaintext highlighter-rouge">users</code> to the <code class="language-plaintext highlighter-rouge">readNamesFromIds</code> function. If we as a user can alter the JSON (which is likely because we can update permissions for our experiments), we can execute a full SQL injection.</p>
+
+<p>Looking at the experiments UI, I saw an option to <code class="language-plaintext highlighter-rouge">changeVisibility</code> of an experiment. Clicking on it gives me this:</p>
+
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/elabftw/visibility.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+</figure>
+
+<p>After clicking save and proxying the request through Burpsuite, I see the following:</p>
+
+<figure style="text-align: center; margin: 2em 0;">
+  <img src="/assets/img/elabftw/visibility_intercepted.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+</figure>
+
+<p>Perfect. As can be seen, when we update the <code class="language-plaintext highlighter-rouge">visibility</code> setting we are sending a JSON string with a <code class="language-plaintext highlighter-rouge">users</code> key, exactly what we need to abuse in order inject SQL.</p>
+
+<h3 id="exploiting">Exploiting</h3>
+
+<p>Given that we can inject arbitrary SQL, what type of attack should we go for next? Looking through the <code class="language-plaintext highlighter-rouge">MYSQL</code> config, I saw that the user does not have <code class="language-plaintext highlighter-rouge">FILE</code> permissions, so writing a reverse shell into the webroot is not an option.</p>
+
+<p>Fortunately, there’s a much simpler way to privilege escalation here – a <code class="language-plaintext highlighter-rouge">UNION SELECT</code> query.  If we look at the original query,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sql = "SELECT CONCAT(users.firstname, ' ', users.lastname) AS fullname, userid, email FROM users WHERE userid IN (" . implode(',', $idArr) . ') ORDER BY fullname ASC';
+</code></pre></div></div>
+
+<p>we can see that it’s fetching 3 text columns from the database. Given that most sensitive data (password hashes, tokens) are stored in the text format, we can use that to our advantage.</p>
+
+<p>To escape out of the original SQL string and perform a UNION attack, I went with the following values for <code class="language-plaintext highlighter-rouge">users</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9999999) UNION SELECT email, token, password_hash FROM users WHERE id = 1 OR 1 IN (2
+</code></pre></div></div>
+
+<p>While to those unfamiliar with SQLi this may look strange, when concatenated onto the original SQL query we get the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT CONCAT(users.firstname, ' ', users.lastname) AS fullname, userid, email FROM users WHERE userid IN (9999999) UNION SELECT email, token, password_hash FROM users WHERE id = 1 OR 1 IN (2) ORDER BY fullname ASC
+</code></pre></div></div>
+
+<p>This is a perfectly valid SQL query. Note that the <code class="language-plaintext highlighter-rouge">SELECT CONCAT</code> part is basically ignored whereas the <code class="language-plaintext highlighter-rouge">UNION SELECT</code> part will always return results. This allows us to get the sysadmin’s token and password hash, enabling full takeover of the app.</p>
+
+<h3 id="poc">PoC</h3>
+
+<ol>
+  <li>Login to elabftw as an unprivileged user.</li>
+  <li>Create an experiment and edit the visibility.</li>
+  <li>
+    <p>Capture the request in BurpSuite or another proxy. Change the <code class="language-plaintext highlighter-rouge">users</code> field in the <code class="language-plaintext highlighter-rouge">canread</code> JSON object to the payload above</p>
+
+    <figure style="text-align: center; margin: 2em 0;">
+   <img src="/assets/img/elabftw/sqli.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+ </figure>
+  </li>
+  <li>
+    <p>Refresh the experiments page. Where the permissions options lives, you should the see the results of the UNION query, which contains a password hash, token, or whatever you’re targeting.</p>
+
+    <figure style="text-align: center; margin: 2em 0;">
+   <img src="/assets/img/elabftw/sqli_results.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+ </figure>
+  </li>
+  <li>
+    <p>If targeting admin token, copy the token and replace the existing <code class="language-plaintext highlighter-rouge">token</code> cookie with that value.</p>
+
+    <figure style="text-align: center; margin: 2em 0;">
+   <img src="/assets/img/elabftw/token.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+ </figure>
+  </li>
+  <li>
+    <p>Request the <code class="language-plaintext highlighter-rouge">sysconfig.php</code> page in your browser. You are now logged in as sysadmin with full control over the app.</p>
+
+    <figure style="text-align: center; margin: 2em 0;">
+   <img src="/assets/img/elabftw/sysadmin.png" alt="Proxy" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+ </figure>
+  </li>
+</ol>
+
+<h3 id="final-thoughts">Final Thoughts</h3>
+<p>This app in general is quite strictly audited and pretty well secure. It just goes to show that sometimes simple, obvious mishaps can go under the radar.</p>
+
+<p>Note that this has been patched and a security advisory has been published here: <a href="https://github.com/elabftw/elabftw/security/advisories/GHSA-qffc-rfjh-77gg">GHSA-qffc-rfjh-77gg</a></p>
+
+
+  </div><a class="u-url" href="/posts/elabftw_sqli.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Bryan&#39;s Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Bryan Lynch</li><li><a class="u-email" href="mailto:bml312@nyu.edu">bml312@nyu.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

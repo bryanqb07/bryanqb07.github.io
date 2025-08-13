@@ -1,0 +1,19 @@
+{% assign s = include.score | plus: 0 %}
+
+{%- comment -%} Determine severity by CVSS v3.x thresholds {%- endcomment -%}
+{% if s >= 9.0 %}
+  {% assign sev = "Critical" %}{% assign sev_class = "sev-critical" %}
+{% elsif s >= 7.0 %}
+  {% assign sev = "High" %}{% assign sev_class = "sev-high" %}
+{% elsif s >= 4.0 %}
+  {% assign sev = "Medium" %}{% assign sev_class = "sev-medium" %}
+{% elsif s > 0 %}
+  {% assign sev = "Low" %}{% assign sev_class = "sev-low" %}
+{% else %}
+  {% assign sev = "None" %}{% assign sev_class = "sev-none" %}
+{% endif %}
+
+<span class="cvss-badge {{ sev_class }}" title="CVSS v3.x {{ vector | escape }}">
+  CVSS {{ s | round: 1 }} <span class="cvss-sev">({{ sev }})</span>
+</span>
+

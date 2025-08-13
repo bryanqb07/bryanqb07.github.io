@@ -178,7 +178,7 @@ drwxr-xr-x    2 nginx    nginx         4096 Jun 22 21:26 plugins
 drwxr-xr-x    7 root     root          4096 Jun 22 21:26 vendor
 ```
 
-Looking at the `nginx.conf`, 
+Looking at the `/etc/nginx/nginx.conf`, 
 
 ```
 location ~ \.php$ {

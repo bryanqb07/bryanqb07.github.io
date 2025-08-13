@@ -1,0 +1,60 @@
+<style>
+.cvss-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  font: 600 0.9rem/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  padding: .2rem .5rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(0,0,0,.08);
+  background: #f5f5f5;
+  white-space: nowrap;
+}
+.cvss-badge .cvss-sev { opacity: .85; font-weight: 600; }
+
+/* Severity colors */
+.sev-critical { background: #ffe8e6; border-color: #ffb6ae; color: #b00020; }
+.sev-high     { background: #fff1e0; border-color: #ffd2a6; color: #a14b00; }
+.sev-medium   { background: #fff8d6; border-color: #ffe58a; color: #7a5d00; }
+.sev-low      { background: #e9f6ea; border-color: #b9e4bf; color: #1b6e28; }
+.sev-none     { background: #eef2f7; border-color: #d7dfea; color: #304a6e; }
+
+/* Optional: vector formatting */
+.cvss-vector {
+  margin-left: .5rem;
+  font-size: .85rem;
+  padding: .05rem .25rem;
+  border-radius: .25rem;
+  background: rgba(0,0,0,.04);
+}
+
+.cvss-wrapper {
+  margin-bottom: 2rem;
+
+}
+</style>
+<div class="cvss-wrapper">
+{% assign s = include.score | plus: 0 %}
+{% assign vector = include.vector | default: "" %}
+
+{%- comment -%} Determine severity by CVSS v3.x thresholds {%- endcomment -%}
+{% if s >= 9.0 %}
+  {% assign sev = "Critical" %}{% assign sev_class = "sev-critical" %}
+{% elsif s >= 7.0 %}
+  {% assign sev = "High" %}{% assign sev_class = "sev-high" %}
+{% elsif s >= 4.0 %}
+  {% assign sev = "Medium" %}{% assign sev_class = "sev-medium" %}
+{% elsif s > 0 %}
+  {% assign sev = "Low" %}{% assign sev_class = "sev-low" %}
+{% else %}
+  {% assign sev = "None" %}{% assign sev_class = "sev-none" %}
+{% endif %}
+
+<span class="cvss-badge {{ sev_class }}" title="CVSS v3.x {{ vector | escape }}">
+  CVSS {{ s | round: 1 }} <span class="cvss-sev">({{ sev }})</span>
+</span>
+{%- if vector != "" -%}
+  <code class="cvss-vector">{{ vector }}</code>
+{%- endif -%}
+</div>
+

@@ -3,6 +3,8 @@ layout: post
 title: "Kanboard CVE-2025-55011"
 category: cve
 tags: [kanboard, cve-2025-55011, security]
+cvss_score: 6.4
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
 ---
 
 <style>
@@ -13,6 +15,9 @@ pre {
 </style>
 
 ## Path Traversal in Task File Upload API Leads To Arbitrary File Write
+{% if page.cvss_score %}
+  {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
+{% endif %}
 ### Identifying the Vulnerability
 File upload vulnerabilities are often a great way to exploit an app. A couple clicks of a button and... BOOM! The server is now yours.  That's why I always make it a priority to check how files are sanitized when uploaded to an app.
 

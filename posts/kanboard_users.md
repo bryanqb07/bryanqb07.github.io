@@ -3,6 +3,9 @@ layout: post
 title: "Kanboard CVE-2025-52575"
 category: cve
 tags: [kanboard, cve-2025-52575, security]
+cvss_score: 5.3
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+
 ---
 
 <style>
@@ -24,6 +27,10 @@ ol > li {
 </style>
 
 ## Username Enumeration via Login and Bruteforce Protection Bypass
+
+{% if page.cvss_score %}
+  {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
+{% endif %}
 
 ### Identifying the Vulnerability
 

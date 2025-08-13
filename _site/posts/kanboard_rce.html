@@ -127,6 +127,50 @@ pre {
 
 <h2 id="authenticated-admin-remote-code-execution-via-unsafe-deserialization">Authenticated Admin Remote Code Execution via Unsafe Deserialization</h2>
 
+<style>
+.cvss-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  font: 600 0.9rem/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  padding: .2rem .5rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(0,0,0,.08);
+  background: #f5f5f5;
+  white-space: nowrap;
+}
+.cvss-badge .cvss-sev { opacity: .85; font-weight: 600; }
+
+/* Severity colors */
+.sev-critical { background: #ffe8e6; border-color: #ffb6ae; color: #b00020; }
+.sev-high     { background: #fff1e0; border-color: #ffd2a6; color: #a14b00; }
+.sev-medium   { background: #fff8d6; border-color: #ffe58a; color: #7a5d00; }
+.sev-low      { background: #e9f6ea; border-color: #b9e4bf; color: #1b6e28; }
+.sev-none     { background: #eef2f7; border-color: #d7dfea; color: #304a6e; }
+
+/* Optional: vector formatting */
+.cvss-vector {
+  margin-left: .5rem;
+  font-size: .85rem;
+  padding: .05rem .25rem;
+  border-radius: .25rem;
+  background: rgba(0,0,0,.04);
+}
+
+.cvss-wrapper {
+  margin-bottom: 2rem;
+
+}
+</style>
+
+<div class="cvss-wrapper">
+
+
+
+<span class="cvss-badge sev-critical" title="CVSS v3.x CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H">
+  CVSS 9.1 <span class="cvss-sev">(Critical)</span>
+</span><code class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H</code></div>
+
 <p><a href="https://github.com/kanboard/kanboard/">Kanboard</a>, like many other apps, uses <code class="language-plaintext highlighter-rouge">admin:admin</code> as its default admin login credentials. While this is convenient for installing and testing the app, it also leaves open the possibly that a lazy sysadmin could forget to change the password. Given that the codebase has almost 10k stars, it’s not unthinkable that there could be hundreds of instances of Kanboard in the wild using default creds.</p>
 
 <p>With this in mind, I decided to do a little experiment.  If a hacker were to login as admin with these creds, how far could they get?  Would it be easy to plant a shell on the system, or are there checks in place to prevent such things from happening?</p>

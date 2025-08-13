@@ -3,9 +3,14 @@ layout: post
 title: "Elabftw CVE-2025-25206"
 category: cve
 tags: [elabftw, cve-2025-25206, security]
+cvss_score: 8.3
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
 ---
 
 ## Authenticated SQL Injection via Metadata Update
+{% if page.cvss_score %}
+  {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
+{% endif %}
 
 ### Identifying the Vulnerability
 

@@ -3,6 +3,8 @@ layout: post
 title: "Kanboard CVE-2025-55010"
 category: cve
 tags: [kanboard, cve-2025-55010, security]
+cvss_score: 9.1
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
 ---
 
 <style>
@@ -13,6 +15,10 @@ pre {
 </style>
 
 ## Authenticated Admin Remote Code Execution via Unsafe Deserialization
+
+{% if page.cvss_score %}
+  {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
+{% endif %}
 
 [Kanboard](https://github.com/kanboard/kanboard/), like many other apps, uses `admin:admin` as its default admin login credentials. While this is convenient for installing and testing the app, it also leaves open the possibly that a lazy sysadmin could forget to change the password. Given that the codebase has almost 10k stars, it's not unthinkable that there could be hundreds of instances of Kanboard in the wild using default creds.
 

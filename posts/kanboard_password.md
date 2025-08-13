@@ -3,6 +3,8 @@ layout: post
 title: "Kanboard CVE-2025-52560"
 category: cve
 tags: [kanboard, cve-2025-52560, security]
+cvss_score: 8.1
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
 ---
 
 <style>
@@ -24,6 +26,9 @@ ol > li {
 </style>
 
 ## Password Reset Poisoning via Host Header Injection
+{% if page.cvss_score %}
+  {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
+{% endif %}
 
 ### Identifying the Vulnerability
 

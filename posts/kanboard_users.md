@@ -32,8 +32,6 @@ ol > li {
   {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
 {% endif %}
 
-### Identifying the Vulnerability
-
 So previously I made a [post](/posts/kanboard_password.html) about a security flaw in Kanboard regarding password reset poisoning by abusing the `Host` headers.  
 
 In light of this, I decided to continue this approach of finding places where headers may potentially be misused. A logical candidate for this is login and authentication. 

@@ -182,8 +182,6 @@ ol > li {
   CVSS 5.3 <span class="cvss-sev">(Medium)</span>
 </span><code class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code></div>
 
-<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
-
 <p>So previously I made a <a href="/posts/kanboard_password.html">post</a> about a security flaw in Kanboard regarding password reset poisoning by abusing the <code class="language-plaintext highlighter-rouge">Host</code> headers.</p>
 
 <p>In light of this, I decided to continue this approach of finding places where headers may potentially be misused. A logical candidate for this is login and authentication.</p>

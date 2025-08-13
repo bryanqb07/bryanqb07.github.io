@@ -18,7 +18,7 @@ pre {
 {% if page.cvss_score %}
   {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
 {% endif %}
-### Identifying the Vulnerability
+
 File upload vulnerabilities are often a great way to exploit an app. A couple clicks of a button and... BOOM! The server is now yours.  That's why I always make it a priority to check how files are sanitized when uploaded to an app.
 
 When examining Kanboard's file-related protections, I noticed that a lot of work had been done on `read` protecting key files from path traversal, particularly by this method in `FileStorage.php`.

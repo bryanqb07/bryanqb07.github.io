@@ -30,8 +30,6 @@ ol > li {
   {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
 {% endif %}
 
-### Identifying the Vulnerability
-
 So on a whim, this past week I decided to check out [Kanboard](https://github.com/kanboard/kanboard/)
  , an open source Kanban-like sprint task management software. It's a medium-sized project, with over 9k Github stars and several published security audits, so I thought it would be a decent challenge for me.
 

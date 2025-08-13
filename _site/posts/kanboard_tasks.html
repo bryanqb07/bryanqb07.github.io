@@ -171,7 +171,6 @@ pre {
   CVSS 6.4 <span class="cvss-sev">(Medium)</span>
 </span><code class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N</code></div>
 
-<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
 <p>File upload vulnerabilities are often a great way to exploit an app. A couple clicks of a button and… BOOM! The server is now yours.  That’s why I always make it a priority to check how files are sanitized when uploaded to an app.</p>
 
 <p>When examining Kanboard’s file-related protections, I noticed that a lot of work had been done on <code class="language-plaintext highlighter-rouge">read</code> protecting key files from path traversal, particularly by this method in <code class="language-plaintext highlighter-rouge">FileStorage.php</code>.</p>

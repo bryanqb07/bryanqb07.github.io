@@ -12,8 +12,6 @@ cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
   {% include cvss.html score=page.cvss_score vector=page.cvss_vector %}
 {% endif %}
 
-### Identifying the Vulnerability
-
 [Elabftw](https://github.com/elabftw/elabftw) is an experiment tracking software used by many universities, particularly in Europe it seems. I came across it during a CTF and thought it looked interesting, so I cloned the Github repo and started to dig in.
 
 Prior to going deep into any web assessment, I like to manually look at every query string in an app to ensure that there aren't any irregularities.  Sure this takes time, but often I find that I can catch things that automated scanners miss.

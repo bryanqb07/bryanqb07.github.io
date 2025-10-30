@@ -3,19 +3,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>About Me | Bryan’s Blog</title>
+<title>Elabftw CVE-2025-62793 | Bryan’s Blog</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="About Me" />
+<meta property="og:title" content="Elabftw CVE-2025-62793" />
 <meta name="author" content="Bryan Lynch" />
 <meta property="og:locale" content="en_US" />
-<link rel="canonical" href="http://localhost:4000/posts/about.html" />
-<meta property="og:url" content="http://localhost:4000/posts/about.html" />
+<link rel="canonical" href="http://localhost:4000/posts/elabftw_xss.html" />
+<meta property="og:url" content="http://localhost:4000/posts/elabftw_xss.html" />
 <meta property="og:site_name" content="Bryan’s Blog" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="About Me" />
+<meta property="twitter:title" content="Elabftw CVE-2025-62793" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Bryan Lynch"},"headline":"About Me","url":"http://localhost:4000/posts/about.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Bryan Lynch"},"headline":"Elabftw CVE-2025-62793","url":"http://localhost:4000/posts/elabftw_xss.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Bryan&apos;s Blog" /></head>
 <body><header class="site-header" role="banner">
@@ -119,25 +119,79 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">About Me</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Elabftw CVE-2025-62793</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="" itemprop="datePublished">
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>The main theme of my life is a love for adventure and a taste for new things. As a kid growing up in the American suburbs, I was overcome with boredom and vowed that I would never get comfortable in life, never stop moving.</p>
+    <h2 id="html-injection--stored-xss-via-malicious-svg-upload">HTML Injection / Stored XSS via Malicious SVG Upload</h2>
 
-<p>I started my career in NYC finance, soon got bored and moved to East Asia, where after a few years I became a translator for Chinese and Japanese.  After making little money in these endeavors and taking advantage of my lifelong hobby of computers and programming, I became a software engineer.</p>
+<style>
+.cvss-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  font: 600 0.9rem/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  padding: .2rem .5rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(0,0,0,.08);
+  background: #f5f5f5;
+  white-space: nowrap;
+}
+.cvss-badge .cvss-sev { opacity: .85; font-weight: 600; }
 
-<p>These days, I’m obsessed with hacking / security engineering, and see that as the focus of my career from here on out, particularly exploit development.</p>
+/* Severity colors */
+.sev-critical { background: #ffe8e6; border-color: #ffb6ae; color: #b00020; }
+.sev-high     { background: #fff1e0; border-color: #ffd2a6; color: #a14b00; }
+.sev-medium   { background: #fff8d6; border-color: #ffe58a; color: #7a5d00; }
+.sev-low      { background: #e9f6ea; border-color: #b9e4bf; color: #1b6e28; }
+.sev-none     { background: #eef2f7; border-color: #d7dfea; color: #304a6e; }
 
-<p>In addition to my career, my interests involve homeschooling my two children as well as reading ancient history in its original source language, particularly Greek and Chinese.</p>
+/* Optional: vector formatting */
+.cvss-vector {
+  margin-left: .5rem;
+  font-size: .85rem;
+  padding: .05rem .25rem;
+  border-radius: .25rem;
+  background: rgba(0,0,0,.04);
+}
 
-<p>Ἀνδρῶν γὰρ ἐπιφανῶν πᾶσα γῆ τάφος</p>
+.cvss-wrapper {
+  margin-bottom: 2rem;
+
+}
+</style>
+
+<div class="cvss-wrapper">
 
 
-  </div><a class="u-url" href="/posts/about.html" hidden></a>
+
+<span class="cvss-badge sev-medium" title="CVSS v3.x CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N">
+  CVSS 6.8 <span class="cvss-sev">(Medium)</span>
+</span><code class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N</code></div>
+
+<p><a href="https://github.com/elabftw/elabftw">Elabftw</a> is an open source software that I keep track of, having published a <a href="https://bryanlynch.dev/posts/elabftw_sqli.html">SQL Injection CVE</a> about six months ago.</p>
+
+<p>About a month ago, I decided to go back and give the code another audit. One thing that immediately jumped out at me was an allowed MIME type for image downloads that had the word <code class="language-plaintext highlighter-rouge">xml</code> in it.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// force the download of everything (regardless of the forceDownload parameter)</span>
+<span class="c1">// to avoid having html injected and interpreted as an elabftw page</span>
+<span class="nv">$safeMimeTypes</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'application/pdf'</span><span class="p">,</span>
+    <span class="s1">'image/gif'</span><span class="p">,</span>
+    <span class="s1">'image/jpeg'</span><span class="p">,</span>
+    <span class="s1">'image/png'</span><span class="p">,</span>
+    <span class="s1">'video/mp4'</span><span class="p">,</span>
+    <span class="s1">'image/svg+xml'</span><span class="p">,</span>
+    <span class="s1">'text/plain'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>I tested it out and sure enough, it was vulnerable to multiple injection attacks. Since this is a newly published CVE, I won’t post the PoC for now, but I will include a link to the security advisory <a href="https://github.com/elabftw/elabftw/security/advisories/GHSA-rq98-8jh9-684f">here</a>.</p>
+
+  </div><a class="u-url" href="/posts/elabftw_xss.html" hidden></a>
 </article>
 
       </div>

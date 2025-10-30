@@ -30,6 +30,6 @@ $safeMimeTypes = array(
 );
 ```
 
-I tested it out and sure enough, it was vulnerable to multiple injection attacks. 
+I tested it out and sure enough, it was vulnerable to multiple injection attacks. The lesson here: never trust anything with the word `xml` in it, especially not images.
 
 Since this is a newly published CVE, I won't post the PoC for now, but I will include a link to the security advisory [here](https://github.com/elabftw/elabftw/security/advisories/GHSA-rq98-8jh9-684f).

